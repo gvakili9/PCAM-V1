@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCAM: Culturally Aligned Story Generator (Vercel)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f3f2;
+        }
+        .persian-font {
+            font-family: 'Vazirmatn', sans-serif;
+            direction: rtl; 
+            line-height: 2.0; 
+        }
+        .card {
+            background-color: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #3b82f6; 
+            transition: background-color 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .border-iran {
+            border-color: #10B981; 
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 min-h-screen">
+    <div id="app" class="max-w-4xl mx-auto">
+        
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold text-[#1f2937] mb-2">
+                PCAM: Culturally Aligned Story Generator
+            </h1>
+            <p class="text-xl text-[#6b7280]">
+                Deployed via Vercel ($\text{سنت} \rightarrow \text{آینده}$)
+            </p>
+        </header>
+
+        <div class="lg:flex lg:space-x-6">
+            
+            <!-- Input & Controls -->
+            <div class="lg:w-1/3 p-6 card rounded-xl mb-6 lg:mb-0 border-t-4 border-iran">
+                <h2 class="text-2xl font-semibold mb-4 text-[#374151]">Story Parameters</h2>
+
+                <div class="space-y-4">
+                    <!-- Theme Selector -->
+                    <div>
+                        <label for="theme" class="block text-sm font-medium text-[#4b5563] mb-1">Cultural Theme</label>
+                        <select id="theme" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="Nowruz/Haft-Seen">Nowruz / Haft-Seen Folklore</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Core Value Selector -->
+                    <div>
+                        <label for="value" class="block text-sm font-medium text-[#4b5563] mb-1">Core Value (Alignment Focus)</label>
+                        <select id="value" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="respect_family">Respect & Family Unity</option>
+                            <option value="kindness_generosity">Kindness & Generosity</option>
+                            <option value="bravery_humility">Bravery & Humility</option>
+                        </select>
+                    </div>
+
+                    <!-- Custom Prompt -->
+                    <div>
+                        <label for="customPrompt" class="block text-sm font-medium text-[#4b5563] mb-1">Story Topic/Concept</label>
+                        <textarea id="customPrompt" rows="3" placeholder="e.g., A little girl finding the missing 'Sabzeh' with her horse Raksh" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"></textarea>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <button id="generateBtn" class="w-full btn-primary text-white font-bold py-3 rounded-xl shadow-md hover:shadow-lg flex items-center justify-center">
+                        <svg id="loadingSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span id="buttonText">Generate Bilingual Story</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Output & Display -->
+            <div class="lg:w-2/3 p-6 card rounded-xl">
+                <h2 class="text-2xl font-semibold mb-4 text-[#374151]">Generated Story (PCAM Output)</h2>
+                
+                <div id="outputContainer" class="space-y-6">
+                    <div id="storyOutput" class="min-h-[400px] border border-gray-200 rounded-lg p-4 bg-gray-50 text-gray-800">
+                        <p class="text-gray-500 text-center mt-32">Enter your parameters and click "Generate" to create a culturally aligned story.</p>
+                    </div>
+                    
+                    <div id="footnoteContainer" class="p-3 bg-yellow-100 rounded-lg border-l-4 border-yellow-500 text-sm text-gray-700 hidden">
+                        <p class="font-semibold text-yellow-700 mb-1">Cultural Footnote for Parents:</p>
+                        <p id="footnoteText"></p>
+                    </div>
+
+                    <div id="errorBox" class="p-3 bg-red-100 rounded-lg border-l-4 border-red-500 text-sm text-red-700 hidden">
+                        <p class="font-semibold mb-1">Error:</p>
+                        <p id="errorText"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const generateBtn = document.getElementById('generateBtn');
+        const storyOutput = document.getElementById('storyOutput');
+        const customPrompt = document.getElementById('customPrompt');
+        const themeSelect = document.getElementById('theme');
+        const valueSelect = document.getElementById('value');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const buttonText = document.getElementById('buttonText');
+        const footnoteContainer = document.getElementById('footnoteContainer');
+        const footnoteText = document.getElementById('footnoteText');
+        const errorBox = document.getElementById('errorBox');
+        const errorText = document.getElementById('errorText');
+
+        const VALUE_MAP = {
+            'respect_family': "Focus on mutual respect, kindness between siblings, and honoring elders.",
+            'kindness_generosity': "Focus on acts of charity, sharing resources, and welcoming guests.",
+            'bravery_humility': "Focus on quiet courage, non-violent solutions, and humility after success (anti-hubris)."
+        };
+
+        function showLoading(isLoading) {
+            if (isLoading) {
+                loadingSpinner.classList.remove('hidden');
+                buttonText.textContent = 'Generating...';
+                generateBtn.disabled = true;
+                errorBox.classList.add('hidden');
+            } else {
+                loadingSpinner.classList.add('hidden');
+                buttonText.textContent = 'Generate Bilingual Story';
+                generateBtn.disabled = false;
+            }
+        }
+
+        function displayError(message) {
+            errorText.textContent = message;
+            errorBox.classList.remove('hidden');
+            storyOutput.innerHTML = `<p class="text-red-600 text-center mt-32">Generation Failed: See error box above.</p>`;
+            footnoteContainer.classList.add('hidden');
+        }
+
+        function displayOutput(storyJson) {
+            let html = `<h3 class="text-xl font-bold mb-4 text-[#4b5563]">${storyJson.title_en} / ${storyJson.title_fa}</h3>`;
+            html += `<div class="space-y-4">`;
+            
+            storyJson.story_pairs.forEach(pair => {
+                html += `
+                    <div class="border-b border-gray-100 pb-2">
+                        <p class="text-lg font-medium text-gray-900">${pair.en}</p>
+                        <p class="persian-font text-xl text-gray-700">${pair.fa}</p>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            storyOutput.innerHTML = html;
+
+            footnoteText.innerHTML = storyJson.cultural_footnote;
+            footnoteContainer.classList.remove('hidden');
+        }
+
+        async function generateStory() {
+            showLoading(true);
+
+            const userTopic = customPrompt.value.trim() || "A little girl and the Haft-Seen table who find a missing 'Sabzeh'";
+            const theme = themeSelect.value;
+            const value = valueSelect.value;
+            const valueInstruction = VALUE_MAP[value];
+
+            const payload = {
+                userTopic: userTopic,
+                theme: theme,
+                valueInstruction: valueInstruction
+            };
+
+            try {
+                // Call the secure Vercel Serverless Function endpoint
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorJson = await response.json().catch(() => ({ message: "Unknown server error." }));
+                    throw new Error(errorJson.message || `Server responded with status ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                // The serverless function already parses the JSON response from Gemini
+                displayOutput(result);
+
+            } catch (error) {
+                console.error("Fetch or API Error:", error);
+                displayError(`Generation failed: ${error.message}.`);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        generateBtn.addEventListener('click', generateStory);
+        
+        window.onload = () => {
+             customPrompt.value = "A little girl finding the missing 'Sabzeh' with her horse Raksh";
+        };
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "pcam-story-generator",
+  "version": "1.0.0",
+  "description": "Persian Cultural Alignment Model (PCAM) project deployment.",
+  "main": "api/generate.js",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "google-genai": "^0.1.0"
+  }
+}

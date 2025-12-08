@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* Custom styles for Persian aesthetic */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f7f3f2;
@@ -20,15 +21,19 @@
             background-color: #ffffff;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
+        /* Color Palette Update: Using Teal (#008080) and Gold (#FFD700) inspired accents */
         .btn-primary {
-            background-color: #3b82f6; 
+            background-color: #008080; /* Teal/Turquoise accent */
             transition: background-color 0.2s;
         }
         .btn-primary:hover {
-            background-color: #2563eb;
+            background-color: #006666;
         }
         .border-iran {
-            border-color: #10B981; 
+            border-color: #FFD700; /* Gold accent */
+        }
+        .text-iran-accent {
+            color: #008080; /* Teal text accent */
         }
     </style>
 </head>
@@ -39,10 +44,17 @@
             <h1 class="text-4xl font-extrabold text-[#1f2937] mb-2">
                 PCAM: Culturally Aligned Story Generator
             </h1>
+            <!-- FIXED: Farsi display using span for RTL -->
             <p class="text-xl text-[#6b7280]">
-                Deployed via Vercel ($\text{سنت} \rightarrow \text{آینده}$)
+                Deployed via Vercel (<span class="persian-font">سنت ← آینده</span>)
             </p>
         </header>
+        
+        <!-- Cultural Image Placeholder -->
+        <div class="mb-8 rounded-xl overflow-hidden shadow-lg border border-gray-200">
+            <!-- Placeholder for Persian miniature or tile pattern (Replace with a real image URL or base64 if needed) -->
+            <img src="https://www.kingorama.com/shahnameh-prints" alt="داستان های کودکانه" class="w-full h-auto object-cover">
+        </div>
 
         <div class="lg:flex lg:space-x-6">
             

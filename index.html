@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCAM: Culturally Aligned Story Generator (Vercel)</title>
+    <title> DAM: Dâstân-e Mâ (Our Story Model) (Vercel)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -41,7 +41,7 @@
     <div id="app" class="max-w-4xl mx-auto">
         
         <header class="text-center mb-8">
-            <h1 class="text-4xl font-extrabold text-[#1f2937] mb-2">
+            <h1 class="4xl font-extrabold text-[#1f2937] mb-2">
                 PCAM: Culturally Aligned Story Generator
             </h1>
             <!-- FIXED: Farsi display using span for RTL -->
@@ -53,7 +53,7 @@
         <!-- Cultural Image Placeholder -->
         <div class="mb-8 rounded-xl overflow-hidden shadow-lg border border-gray-200">
             <!-- Placeholder for Persian miniature or tile pattern (Replace with a real image URL or base64 if needed) -->
-            <img src="https://www.kingorama.com/shahnameh-prints" alt="داستان های کودکانه" class="w-full h-auto object-cover">
+            <img src="https://images.squarespace-cdn.com/content/v1/55a02c9fe4b01b3af99fb061/1570043034319-1K039UOZYA6ZK9J8CR91/Screenshot+2019-10-01+10.28.53.png?format=1500w" alt="داستان های کودکانه" class="w-full h-auto object-cover">
         </div>
 
         <div class="lg:flex lg:space-x-6">
@@ -63,11 +63,13 @@
                 <h2 class="text-2xl font-semibold mb-4 text-[#374151]">Story Parameters</h2>
 
                 <div class="space-y-4">
-                    <!-- Theme Selector -->
+                    <!-- Theme Selector: ADDED MORE THEMES -->
                     <div>
                         <label for="theme" class="block text-sm font-medium text-[#4b5563] mb-1">Cultural Theme</label>
                         <select id="theme" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
                             <option value="Nowruz/Haft-Seen">Nowruz / Haft-Seen Folklore</option>
+                            <option value="Yalda/Shahnameh">Yalda Night / Shahnameh Simplified</option>
+                            <option value="Everyday/Fable">Everyday Fables & Persian Garden</option>
                         </select>
                     </div>
                     

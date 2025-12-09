@@ -1,5 +1,5 @@
 // This file must be placed in a directory named 'api'
-const { GoogleGenAI } = require('google-genai');
+const { GoogleGenAI } = require('@google/genai');
 
 // The key is securely retrieved from Vercel's environment variables
 const ai = new GoogleGenAI(process.env.GEMINI_API_KEY);

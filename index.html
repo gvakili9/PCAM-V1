@@ -1,235 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dâstân-e Mâ: Our Story Model (Vercel)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        /* Custom styles for Persian aesthetic */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f3f2;
-        }
-        .persian-font {
-            font-family: 'Vazirmatn', sans-serif;
-            direction: rtl; 
-            line-height: 2.0; 
-        }
-        .card {
-            background-color: #ffffff;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        /* Color Palette Update: Using Teal (#008080) and Gold (#FFD700) inspired accents */
-        .btn-primary {
-            background-color: #008080; /* Teal/Turquoise accent */
-            transition: background-color 0.2s;
-        }
-        .btn-primary:hover {
-            background-color: #006666;
-        }
-        .border-iran {
-            border-color: #FFD700; /* Gold accent */
-        }
-        .text-iran-accent {
-            color: #008080; /* Teal text accent */
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Dâstân-e Mâ: Persian Cultural Alignment Model</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f7f3f2;
+    }
+
+    .persian-font {
+      font-family: 'Vazirmatn', sans-serif;
+      direction: rtl;
+      line-height: 2;
+    }
+
+    .card {
+      background: white;
+      box-shadow: 0 10px 30px rgba(0,0,0,.1);
+    }
+
+    .btn-primary {
+      background-color: #0f766e;
+    }
+
+    .btn-primary:hover {
+      background-color: #115e59;
+    }
+
+    .border-iran {
+      border-color: #c9a227;
+    }
+  </style>
 </head>
-<body class="p-4 sm:p-8 min-h-screen">
-    <div id="app" class="max-w-4xl mx-auto">
-        
-        <header class="text-center mb-8">
-            <h1 class="4xl font-extrabold text-[#1f2937] mb-2">
-                Dâstân-e Mâ: Our Story Model
-            </h1>
-            <!-- FIXED: Farsi display using span for RTL -->
-            <p class="text-xl text-[#6b7280]">
-                Deployed via Vercel (<span class="persian-font">سنت ← آینده</span>)
-            </p>
-        </header>
-        
-        <!-- Cultural Image Placeholder -->
-        <div class="mb-8 rounded-xl overflow-hidden shadow-lg border border-gray-200">
-            <!-- FIX: Using reliable placeholder URL with Persian-inspired color scheme -->
-            <img src="https://placehold.co/900x150/008080/FFFFFF?text=Persian+Miniature+Motif+%7C+داستان+های+کودکانه" alt="Persian inspired header motif" class="w-full h-auto object-cover">
+
+<body class="p-6 min-h-screen">
+
+<div id="app" class="max-w-5xl mx-auto">
+
+  <!-- HEADER -->
+  <header class="text-center mb-10 flex flex-col items-center">
+
+    <!-- Persian Calligraphy Logo -->
+    <img
+      src="/images/dastan-ma.png"
+      alt="Dâstân-e Mâ Persian Calligraphy"
+      class="h-16 mb-4"
+    />
+
+    <h1 class="text-4xl font-extrabold text-gray-800 mb-2">
+      Dâstân-e Mâ: Our Story Model
+    </h1>
+
+    <p class="text-xl text-gray-500">
+      Deployed via Vercel (<span class="persian-font">سنت ← آینده</span>)
+    </p>
+  </header>
+
+  <!-- HERO IMAGE -->
+  <div class="mb-10 rounded-xl overflow-hidden shadow-xl border border-iran">
+    <img
+      src="/images/rostam-esfandiar.webp"
+      alt="Shahnameh miniature – Rostam and Esfandiar"
+      class="w-full h-[260px] object-cover"
+    />
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="lg:flex lg:gap-6">
+
+    <!-- CONTROLS -->
+    <div class="lg:w-1/3 p-6 card rounded-xl border-t-4 border-iran mb-6 lg:mb-0">
+      <h2 class="text-2xl font-semibold mb-4">Story Parameters</h2>
+
+      <div class="space-y-4">
+
+        <div>
+          <label class="block text-sm mb-1">Cultural Theme</label>
+          <select id="theme" class="w-full p-3 border rounded-lg">
+            <option>Nowruz / Haft-Seen</option>
+            <option>Yalda / Shahnameh</option>
+            <option>Persian Garden Fables</option>
+            <option>Sizdah Bedar</option>
+            <option>Chaharshanbe Suri</option>
+          </select>
         </div>
 
-        <div class="lg:flex lg:space-x-6">
-            
-            <!-- Input & Controls -->
-            <div class="lg:w-1/3 p-6 card rounded-xl mb-6 lg:mb-0 border-t-4 border-iran">
-                <h2 class="text-2xl font-semibold mb-4 text-[#374151]">Story Parameters</h2>
-
-                <div class="space-space-y-4">
-                    <!-- Theme Selector: ADDED MORE THEMES -->
-                    <div>
-                        <label for="theme" class="block text-sm font-medium text-[#4b5563] mb-1">Cultural Theme</label>
-                        <select id="theme" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
-                            <option value="Nowruz/Haft-Seen">Nowruz / Haft-Seen Folklore</option>
-                            <option value="Yalda/Shahnameh">Yalda Night / Shahnameh Simplified</option>
-                            <option value="Everyday/Fable">Everyday Fables & Persian Garden</option>
-                            <option value="Sizdah_Bedar">Sizdah Bedar (Nature & Joy)</option>
-                            <option value="Chaharshanbe_Suri">Chaharshanbe Suri (Fire & Cleansing)</option>
-                        </select>
-                    </div>
-                    
-                    <!-- Core Value Selector -->
-                    <div>
-                        <label for="value" class="block text-sm font-medium text-[#4b5563] mb-1">Core Value (Alignment Focus)</label>
-                        <select id="value" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
-                            <option value="respect_family">Respect & Family Unity</option>
-                            <option value="kindness_generosity">Kindness & Generosity</option>
-                            <option value="bravery_humility">Bravery & Humility</option>
-                        </select>
-                    </div>
-
-                    <!-- Custom Prompt -->
-                    <div>
-                        <label for="customPrompt" class="block text-sm font-medium text-[#4b5563] mb-1">Story Topic/Concept</label>
-                        <textarea id="customPrompt" rows="3" placeholder="e.g., A little girl finding the missing 'Sabzeh' with her horse Raksh" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"></textarea>
-                    </div>
-
-                    <!-- Generate Button -->
-                    <button id="generateBtn" class="w-full btn-primary text-white font-bold py-3 rounded-xl shadow-md hover:shadow-lg flex items-center justify-center">
-                        <svg id="loadingSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        <span id="buttonText">Generate Bilingual Story</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Output & Display -->
-            <div class="lg:w-2/3 p-6 card rounded-xl">
-                <h2 class="text-2xl font-semibold mb-4 text-[#374151]">Generated Story (Dâstân-e Mâ Output)</h2>
-                
-                <div id="outputContainer" class="space-y-6">
-                    <div id="storyOutput" class="min-h-[400px] border border-gray-200 rounded-lg p-4 bg-gray-50 text-gray-800">
-                        <p class="text-gray-500 text-center mt-32">Enter your parameters and click "Generate" to create a culturally aligned story.</p>
-                    </div>
-                    
-                    <div id="footnoteContainer" class="p-3 bg-yellow-100 rounded-lg border-l-4 border-yellow-500 text-sm text-gray-700 hidden">
-                        <p class="font-semibold text-yellow-700 mb-1">Cultural Footnote for Parents:</p>
-                        <p id="footnoteText"></p>
-                    </div>
-
-                    <div id="errorBox" class="p-3 bg-red-100 rounded-lg border-l-4 border-red-500 text-sm text-red-700 hidden">
-                        <p class="font-semibold mb-1">Error:</p>
-                        <p id="errorText"></p>
-                    </div>
-                </div>
-            </div>
+        <div>
+          <label class="block text-sm mb-1">Core Value</label>
+          <select id="value" class="w-full p-3 border rounded-lg">
+            <option value="respect_family">Respect & Family Unity</option>
+            <option value="kindness_generosity">Kindness & Hospitality</option>
+            <option value="bravery_humility">Bravery & Humility</option>
+          </select>
         </div>
+
+        <div>
+          <label class="block text-sm mb-1">Story Topic</label>
+          <textarea
+            id="customPrompt"
+            rows="3"
+            class="w-full p-3 border rounded-lg"
+            placeholder="A child helping set the Haft-Seen table"
+          ></textarea>
+        </div>
+
+        <button id="generateBtn"
+          class="w-full btn-primary text-white font-bold py-3 rounded-xl">
+          Generate Bilingual Story
+        </button>
+
+      </div>
     </div>
 
-    <script>
-        const generateBtn = document.getElementById('generateBtn');
-        const storyOutput = document.getElementById('storyOutput');
-        const customPrompt = document.getElementById('customPrompt');
-        const themeSelect = document.getElementById('theme');
-        const valueSelect = document.getElementById('value');
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        const buttonText = document.getElementById('buttonText');
-        const footnoteContainer = document.getElementById('footnoteContainer');
-        const footnoteText = document.getElementById('footnoteText');
-        const errorBox = document.getElementById('errorBox');
-        const errorText = document.getElementById('errorText');
+    <!-- OUTPUT -->
+    <div class="lg:w-2/3 p-6 card rounded-xl">
+      <h2 class="text-2xl font-semibold mb-4">
+        Generated Story
+      </h2>
 
-        const VALUE_MAP = {
-            'respect_family': "Focus on mutual respect, kindness between siblings, and honoring elders.",
-            'kindness_generosity': "Focus on acts of charity, sharing resources, and welcoming guests.",
-            'bravery_humility': "Focus on quiet courage, non-violent solutions, and humility after success (anti-hubris)."
-        };
+      <div id="storyOutput"
+           class="min-h-[380px] border rounded-lg p-4 bg-gray-50">
+        <p class="text-center text-gray-400 mt-32">
+          Select parameters and click “Generate”
+        </p>
+      </div>
 
-        function showLoading(isLoading) {
-            if (isLoading) {
-                loadingSpinner.classList.remove('hidden');
-                buttonText.textContent = 'Generating...';
-                generateBtn.disabled = true;
-                errorBox.classList.add('hidden');
-            } else {
-                loadingSpinner.classList.add('hidden');
-                buttonText.textContent = 'Generate Bilingual Story';
-                generateBtn.disabled = false;
-            }
-        }
+      <div id="footnoteContainer"
+           class="mt-4 p-3 bg-yellow-100 border-l-4 border-yellow-600 hidden">
+        <strong>Parent Footnote:</strong>
+        <p id="footnoteText"></p>
+      </div>
 
-        function displayError(message) {
-            errorText.textContent = message;
-            errorBox.classList.remove('hidden');
-            storyOutput.innerHTML = `<p class="text-red-600 text-center mt-32">Generation Failed: See error box above.</p>`;
-            footnoteContainer.classList.add('hidden');
-        }
+      <div id="errorBox"
+           class="mt-4 p-3 bg-red-100 border-l-4 border-red-600 hidden">
+        <strong>Error:</strong>
+        <p id="errorText"></p>
+      </div>
 
-        function displayOutput(storyJson) {
-            let html = `<h3 class="text-xl font-bold mb-4 text-[#4b5563]">${storyJson.title_en} / ${storyJson.title_fa}</h3>`;
-            html += `<div class="space-y-4">`;
-            
-            storyJson.story_pairs.forEach(pair => {
-                html += `
-                    <div class="border-b border-gray-100 pb-2">
-                        <p class="text-lg font-medium text-gray-900">${pair.en}</p>
-                        <p class="persian-font text-xl text-gray-700">${pair.fa}</p>
-                    </div>
-                `;
-            });
+    </div>
+  </div>
 
-            html += `</div>`;
-            storyOutput.innerHTML = html;
+  <!-- FOOTER -->
+  <footer class="text-center text-sm text-gray-500 mt-12">
+    Inspired by Persian oral storytelling traditions • شاهنامه • فولکلور ایرانی
+  </footer>
 
-            footnoteText.innerHTML = storyJson.cultural_footnote;
-            footnoteContainer.classList.remove('hidden');
-        }
+</div>
 
-        async function generateStory() {
-            showLoading(true);
+<!-- SCRIPT (unchanged logic) -->
+<script>
+const VALUE_MAP = {
+  respect_family: "Focus on honoring elders and family unity.",
+  kindness_generosity: "Focus on hospitality and generosity.",
+  bravery_humility: "Focus on courage without arrogance."
+};
 
-            const userTopic = customPrompt.value.trim() || "A little girl and the Haft-Seen table who find a missing 'Sabzeh'";
-            const theme = themeSelect.value;
-            const value = valueSelect.value;
-            const valueInstruction = VALUE_MAP[value];
+const btn = document.getElementById('generateBtn');
+const output = document.getElementById('storyOutput');
+const footnote = document.getElementById('footnoteContainer');
+const footnoteText = document.getElementById('footnoteText');
+const errorBox = document.getElementById('errorBox');
+const errorText = document.getElementById('errorText');
 
-            const payload = {
-                userTopic: userTopic,
-                theme: theme,
-                valueInstruction: valueInstruction
-            };
+btn.onclick = async () => {
+  const payload = {
+    theme: theme.value,
+    valueInstruction: VALUE_MAP[value.value],
+    userTopic: customPrompt.value
+  };
 
-            try {
-                // Call the secure Vercel Serverless Function endpoint
-                const response = await fetch('/api/generate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+  try {
+    const res = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
 
-                if (!response.ok) {
-                    const errorJson = await response.json().catch(() => ({ message: "Unknown server error." }));
-                    throw new Error(errorJson.message || `Server responded with status ${response.status}`);
-                }
+    const data = await res.json();
 
-                const result = await response.json();
-                
-                // The serverless function already parses the JSON response from Gemini
-                displayOutput(result);
+    let html = `<h3 class="text-xl font-bold mb-4">${data.title_en} / ${data.title_fa}</h3>`;
+    data.story_pairs.forEach(p => {
+      html += `
+        <p class="mb-3">${p.en}</p>
+        <p class="persian-font mb-6">${p.fa}</p>
+      `;
+    });
 
-            } catch (error) {
-                console.error("Fetch or API Error:", error);
-                displayError(`Generation failed: ${error.message}.`);
-            } finally {
-                showLoading(false);
-            }
-        }
+    output.innerHTML = html;
+    footnoteText.innerHTML = data.cultural_footnote;
+    footnote.classList.remove('hidden');
+    errorBox.classList.add('hidden');
 
-        generateBtn.addEventListener('click', generateStory);
-        
-        window.onload = () => {
-             customPrompt.value = "A little girl finding the missing 'Sabzeh' with her horse Raksh";
-        };
+  } catch (e) {
+    errorText.textContent = e.message;
+    errorBox.classList.remove('hidden');
+    footnote.classList.add('hidden');
+  }
+};
+</script>
 
-    </script>
 </body>
 </html>

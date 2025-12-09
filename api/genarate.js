@@ -35,6 +35,9 @@ const PCAM_SCHEMA = {
 };
 
 module.exports = async (req, res) => {
+    // Ensure all errors return JSON
+    res.setHeader('Content-Type', 'application/json');
+
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
@@ -42,15 +45,24 @@ module.exports = async (req, res) => {
     try {
         const { userTopic, theme, valueInstruction } = req.body;
 
+        // CRITICAL LOGGING STEP: Log inputs to check for undefined variables
+        console.log('Received Payload:', req.body);
+        
         if (!userTopic || !theme || !valueInstruction) {
+            console.error('Validation Error: Missing parameters');
             return res.status(400).json({ message: 'Missing required parameters (topic, theme, or value).' });
         }
-
-        const systemPrompt = SYSTEM_PROMPT_BASE(theme, valueInstruction);
+        
+        // Ensure values are safe strings before use
+        const safeUserTopic = String(userTopic);
+        const safeTheme = String(theme);
+        const safeValueInstruction = String(valueInstruction);
+        
+        const systemPrompt = SYSTEM_PROMPT_BASE(safeTheme, safeValueInstruction);
 
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash-preview-09-2025',
-            contents: [{ role: 'user', parts: [{ text: `Generate story about: ${userTopic}` }] }],
+            contents: [{ role: 'user', parts: [{ text: `Generate story about: ${safeUserTopic}` }] }],
             config: {
                 systemInstruction: systemPrompt,
                 responseMimeType: 'application/json',
@@ -59,16 +71,26 @@ module.exports = async (req, res) => {
         });
         
         const jsonText = response.candidates?.[0]?.content?.parts?.[0]?.text;
-
+        
         if (!jsonText) {
+            console.error('Gemini Failure: No JSON content returned.');
             return res.status(500).json({ message: 'Gemini API failed to return structured content.' });
         }
         
-        // Return the parsed JSON directly to the client
-        res.status(200).json(JSON.parse(jsonText));
+        // Attempt to parse and return JSON
+        try {
+            const parsedJson = JSON.parse(jsonText);
+            console.log('Successfully generated content.');
+            return res.status(200).json(parsedJson);
+        } catch (parseError) {
+            console.error('JSON Parsing Error in API:', parseError);
+            console.log('Raw JSON Text:', jsonText);
+            return res.status(500).json({ message: 'Server failed to parse Gemini JSON output.' });
+        }
 
     } catch (error) {
-        console.error('Gemini API Error:', error);
-        res.status(500).json({ message: 'Internal server error during content generation.' });
+        // Catch all unexpected crashes
+        console.error('UNHANDLED SERVER ERROR:', error.message);
+        return res.status(500).json({ message: 'Internal server crash during generation process. Check Vercel logs.' });
     }
 };
